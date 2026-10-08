@@ -1,0 +1,478 @@
+{
+  "info": {
+    "_postman_id": "ab3ccc90-1be1-403d-83cc-2fa4e6b234e3",
+    "name": "Laboratorio Fast MCP y JWT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33032223"
+  },
+  "item": [
+    {
+      "name": "01_Registrar usuario (una sola vez)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\":\"demo\",\"password\":\"demo12345\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8001/auth/register",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8001",
+          "path": [
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02_Login (obtener token)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\":\"demo\",\"password\":\"demo12345\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8001/auth/login",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8001",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03_Validar token (opcional, confirma que el token es válido)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwianRpIjoiMzc2MWNjMTktMDM0Ny00OGE4LWIwYWEtNWQ3Mjk3ZmEwMDhlIiwiaWF0IjoxNzkxNDY4ODkzLCJleHAiOjE3OTE0NzI0OTN9.x3BN1-YBddanjRIz0rhuMGHjVWWnzUy8tAHFPB6JPwQ"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8001/auth/validate",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8001",
+          "path": [
+            "auth",
+            "validate"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "04_Refrescar token (opcional, rota el token — el anterior queda revocado)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{AUTH_TOKEN}}"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8001/auth/refresh",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8001",
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "05_MCP sin token (debe fallar)",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"postman-test\",\"version\":\"1.0.0\"}}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/mcp",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "mcp"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "06_MCP initialize con token",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwianRpIjoiM2JiNjIwZmEtODE0OS00ZjEyLWE3NGQtM2Q0Y2U0NjNmMGM3IiwiaWF0IjoxNzkxNDcyNjAwLCJleHAiOjE3OTE0NzYyMDB9.jdnI_DWjDe0-73o4usVwTsM1KJi9WtfzzKpDfbDfSHM"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"postman-test\",\"version\":\"1.0.0\"}}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/mcp",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "mcp"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "07_Confirmar inicializacion",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwianRpIjoiMzc2MWNjMTktMDM0Ny00OGE4LWIwYWEtNWQ3Mjk3ZmEwMDhlIiwiaWF0IjoxNzkxNDY4ODkzLCJleHAiOjE3OTE0NzI0OTN9.x3BN1-YBddanjRIz0rhuMGHjVWWnzUy8tAHFPB6JPwQ"
+          },
+          {
+            "key": "Mcp-Session-Id",
+            "value": "736a521585de401593294333c9ff4a5a"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/mcp",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "mcp"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "08_Llamar la tool get_exchange_rate",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json, text/event-stream"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwianRpIjoiMzc2MWNjMTktMDM0Ny00OGE4LWIwYWEtNWQ3Mjk3ZmEwMDhlIiwiaWF0IjoxNzkxNDY4ODkzLCJleHAiOjE3OTE0NzI0OTN9.x3BN1-YBddanjRIz0rhuMGHjVWWnzUy8tAHFPB6JPwQ"
+          },
+          {
+            "key": "Mcp-Session-Id",
+            "value": "736a521585de401593294333c9ff4a5a"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/call\",\"params\":{\"name\":\"get_exchange_rate\",\"arguments\":{\"currency_from\":\"USD\",\"currency_to\":\"EUR\",\"currency_date\":\"latest\"}}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/mcp",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "mcp"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "{\r",
+          "  \"info\": {\r",
+          "    \"name\": \"fast-mcp - get_exchange_rate\",\r",
+          "    \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\",\r",
+          "    \"_postman_id\": \"f1a2b3c4-get-exchange-rate\"\r",
+          "  },\r",
+          "  \"variable\": [\r",
+          "    { \"key\": \"AUTH_BASE_URL\", \"value\": \"http://127.0.0.1:8001\" },\r",
+          "    { \"key\": \"MCP_BASE_URL\", \"value\": \"http://127.0.0.1:8000\" },\r",
+          "    { \"key\": \"USERNAME\", \"value\": \"demo\" },\r",
+          "    { \"key\": \"PASSWORD\", \"value\": \"demo12345\" },\r",
+          "    { \"key\": \"AUTH_TOKEN\", \"value\": \"\" },\r",
+          "    { \"key\": \"MCP_SESSION\", \"value\": \"\" }\r",
+          "  ],\r",
+          "  \"item\": [\r",
+          "    {\r",
+          "      \"name\": \"01 - Login (get token)\",\r",
+          "      \"event\": [\r",
+          "        {\r",
+          "          \"listen\": \"test\",\r",
+          "          \"script\": {\r",
+          "            \"exec\": [\r",
+          "              \"const data = pm.response.json();\",\r",
+          "              \"if (data.access_token) { pm.collectionVariables.set('AUTH_TOKEN', data.access_token); }\",\r",
+          "              \"pm.test('login status 200', function () { pm.response.to.have.status(200); });\"\r",
+          "            ],\r",
+          "            \"type\": \"text/javascript\"\r",
+          "          }\r",
+          "        }\r",
+          "      ],\r",
+          "      \"request\": {\r",
+          "        \"method\": \"POST\",\r",
+          "        \"header\": [\r",
+          "          { \"key\": \"Content-Type\", \"value\": \"application/json\" }\r",
+          "        ],\r",
+          "        \"body\": {\r",
+          "          \"mode\": \"raw\",\r",
+          "          \"raw\": \"{\\\"username\\\":\\\"{{USERNAME}}\\\",\\\"password\\\":\\\"{{PASSWORD}}\\\"}\"\r",
+          "        },\r",
+          "        \"url\": { \"raw\": \"{{AUTH_BASE_URL}}/auth/login\", \"host\": [\"{{AUTH_BASE_URL}}\"], \"path\": [\"auth\", \"login\"] }\r",
+          "      },\r",
+          "      \"response\": []\r",
+          "    },\r",
+          "    {\r",
+          "      \"name\": \"02 - MCP initialize\",\r",
+          "      \"event\": [\r",
+          "        {\r",
+          "          \"listen\": \"test\",\r",
+          "          \"script\": {\r",
+          "            \"exec\": [\r",
+          "              \"const sessionId = pm.response.headers.get('mcp-session-id');\",\r",
+          "              \"if (sessionId) { pm.collectionVariables.set('MCP_SESSION', sessionId); }\",\r",
+          "              \"pm.test('initialize status 200', function () { pm.response.to.have.status(200); });\"\r",
+          "            ],\r",
+          "            \"type\": \"text/javascript\"\r",
+          "          }\r",
+          "        }\r",
+          "      ],\r",
+          "      \"request\": {\r",
+          "        \"method\": \"POST\",\r",
+          "        \"header\": [\r",
+          "          { \"key\": \"Content-Type\", \"value\": \"application/json\" },\r",
+          "          { \"key\": \"Accept\", \"value\": \"application/json, text/event-stream\" },\r",
+          "          { \"key\": \"Authorization\", \"value\": \"Bearer {{AUTH_TOKEN}}\" }\r",
+          "        ],\r",
+          "        \"body\": {\r",
+          "          \"mode\": \"raw\",\r",
+          "          \"raw\": \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":1,\\\"method\\\":\\\"initialize\\\",\\\"params\\\":{\\\"protocolVersion\\\":\\\"2024-11-05\\\",\\\"capabilities\\\":{},\\\"clientInfo\\\":{\\\"name\\\":\\\"postman-test\\\",\\\"version\\\":\\\"1.0.0\\\"}}}\"\r",
+          "        },\r",
+          "        \"url\": { \"raw\": \"{{MCP_BASE_URL}}/mcp\", \"host\": [\"{{MCP_BASE_URL}}\"], \"path\": [\"mcp\"] }\r",
+          "      },\r",
+          "      \"response\": []\r",
+          "    },\r",
+          "    {\r",
+          "      \"name\": \"03 - notifications/initialized\",\r",
+          "      \"request\": {\r",
+          "        \"method\": \"POST\",\r",
+          "        \"header\": [\r",
+          "          { \"key\": \"Content-Type\", \"value\": \"application/json\" },\r",
+          "          { \"key\": \"Accept\", \"value\": \"application/json, text/event-stream\" },\r",
+          "          { \"key\": \"Authorization\", \"value\": \"Bearer {{AUTH_TOKEN}}\" },\r",
+          "          { \"key\": \"Mcp-Session-Id\", \"value\": \"{{MCP_SESSION}}\" }\r",
+          "        ],\r",
+          "        \"body\": {\r",
+          "          \"mode\": \"raw\",\r",
+          "          \"raw\": \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"method\\\":\\\"notifications/initialized\\\"}\"\r",
+          "        },\r",
+          "        \"url\": { \"raw\": \"{{MCP_BASE_URL}}/mcp\", \"host\": [\"{{MCP_BASE_URL}}\"], \"path\": [\"mcp\"] }\r",
+          "      },\r",
+          "      \"response\": []\r",
+          "    },\r",
+          "    {\r",
+          "      \"name\": \"04 - tools/call get_exchange_rate\",\r",
+          "      \"request\": {\r",
+          "        \"method\": \"POST\",\r",
+          "        \"header\": [\r",
+          "          { \"key\": \"Content-Type\", \"value\": \"application/json\" },\r",
+          "          { \"key\": \"Accept\", \"value\": \"application/json, text/event-stream\" },\r",
+          "          { \"key\": \"Authorization\", \"value\": \"Bearer {{AUTH_TOKEN}}\" },\r",
+          "          { \"key\": \"Mcp-Session-Id\", \"value\": \"{{MCP_SESSION}}\" }\r",
+          "        ],\r",
+          "        \"body\": {\r",
+          "          \"mode\": \"raw\",\r",
+          "          \"raw\": \"{\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":2,\\\"method\\\":\\\"tools/call\\\",\\\"params\\\":{\\\"name\\\":\\\"get_exchange_rate\\\",\\\"arguments\\\":{\\\"currency_from\\\":\\\"USD\\\",\\\"currency_to\\\":\\\"EUR\\\",\\\"currency_date\\\":\\\"latest\\\"}}}\"\r",
+          "        },\r",
+          "        \"url\": { \"raw\": \"{{MCP_BASE_URL}}/mcp\", \"host\": [\"{{MCP_BASE_URL}}\"], \"path\": [\"mcp\"] }\r",
+          "      },\r",
+          "      \"response\": []\r",
+          "    }\r",
+          "  ]\r",
+          "}"
+        ]
+      }
+    }
+  ]
+}
